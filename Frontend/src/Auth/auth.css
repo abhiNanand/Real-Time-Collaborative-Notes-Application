@@ -1,0 +1,314 @@
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Page container */
+.authContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #eef2ff, #f8fafc);
+  padding: 20px;
+}
+
+/* Heading */
+.authContainer h1 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+  color: #1f2937;
+}
+
+/* Form card */
+form {
+  width: 100%;
+  max-width: 420px;
+}
+
+.fillForm {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Label + input layout */
+.labelsAndFields {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+/* Labels */
+.labels {
+  display: none; /* hidden for cleaner UI */
+}
+
+/* Input fields */
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fields input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 0.95rem;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.fields input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.fields input:disabled {
+  background: #f3f4f6;
+  cursor: not-allowed;
+}
+
+/* Show / Hide password button */
+.fields button {
+  font-size: 0.8rem;
+  color: #4f46e5;
+}
+
+.fields button:hover {
+  text-decoration: underline;
+}
+
+/* Forgot password */
+.fillForm > div button {
+  font-size: 0.85rem;
+  color: #4f46e5;
+}
+
+/* Login / Signup switch */
+.moveTo {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.moveTo a {
+  color: #4f46e5;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.moveTo a:hover {
+  text-decoration: underline;
+}
+
+/* Main button */
+.btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: #4f46e5;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn:hover:not(:disabled) {
+  background: #4338ca;
+  transform: translateY(-1px);
+}
+
+.btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+/* Tablets */
+@media (min-width: 640px) {
+  .authContainer h1 {
+    font-size: 2.2rem;
+  }
+
+  .fillForm {
+    padding: 28px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .authContainer {
+    background: linear-gradient(135deg, #e0e7ff, #f8fafc);
+  }
+
+  .fillForm {
+    padding: 32px;
+  }
+}
+
+/* =========================
+   FORGOT PASSWORD MODAL
+   ========================= */
+
+/* Backdrop */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  padding: 16px;
+}
+
+/* Modal box */
+.modal-content {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  animation: modalFadeIn 0.25s ease;
+}
+
+/* Close (×) button */
+.modal-content > button {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-size: 1.6rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+}
+
+.modal-content > button:hover {
+  color: #111827;
+}
+
+.modal-content > button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Title */
+.modal-content h1 {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+/* Description */
+.modal-content p {
+  font-size: 0.9rem;
+  color: #4b5563;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+/* Form spacing */
+.modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Label */
+.modal-content label {
+  font-size: 0.85rem;
+  color: #374151;
+  margin-bottom: 6px;
+  display: block;
+}
+
+/* Input */
+.modal-content input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 0.95rem;
+}
+
+.modal-content input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+}
+
+.modal-content input:disabled {
+  background: #f3f4f6;
+  cursor: not-allowed;
+}
+
+/* Buttons row */
+.modal-content form > div:last-child {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+/* Cancel button */
+.modal-content form > div:last-child button:first-child {
+  background: transparent;
+  border: 1px solid #d1d5db;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.modal-content form > div:last-child button:first-child:hover {
+  background: #f3f4f6;
+}
+
+.modal-content form > div:last-child button:first-child:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Animation */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 480px) {
+  .modal-content {
+    padding: 20px;
+  }
+
+  .modal-content h1 {
+    font-size: 1.3rem;
+  }
+}
