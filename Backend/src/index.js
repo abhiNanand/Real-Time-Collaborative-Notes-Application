@@ -7,7 +7,12 @@ import cookieParser from "cookie-parser";
 
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // frontend URL
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 
@@ -22,7 +27,6 @@ app.get("/",(req,res)=>{
 });
 
 app.use("/account",authRoutes);
+const PORT = process.env.PORT || 3000;
 
-
-
-app.listen(3000,()=>console.log("http://localhost:3000"));
+app.listen(PORT,()=>console.log("http://localhost:3000"));

@@ -23,10 +23,6 @@ export const publicRoutes = [
         element: <Signup />,
         title: "signup",
       },
-      {
-        path: "/",
-        element: <Home />,
-      },
     ],
   },
 ];

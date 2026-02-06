@@ -14,7 +14,7 @@ export const privateRoute = [
     element:<PrivateRoute/>,
     children:[
       {
-        path:'/home',
+        path:'/',
         element:<Home/>
       }
     ]

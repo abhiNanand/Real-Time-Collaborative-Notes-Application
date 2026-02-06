@@ -94,7 +94,7 @@ router.post("/signup", async (req, res) => {
     });
 
     //send mail in signup route
-    const verifyLink = `http://localhost:3000/verify-email?token=${token}`;
+    const verifyLink = `http://localhost:3000/account/verify-email?token=${token}`;
     await transporter.sendMail({
       from: "Chat App by Abhishek Anand",
       to: email,

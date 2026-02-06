@@ -2,6 +2,8 @@ import { Link, useNavigate } from "react-router";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import ForgetPassword from "./ForgetPassword";
+import {useDispatch} from 'react-redux';
+import {login} from '../Store/authSlice';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -9,6 +11,8 @@ export default function Login() {
   const [openForgetPage, setOpenForgetPage] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -44,7 +48,11 @@ export default function Login() {
       if (!res.ok) {
         throw new Error(data.message || "Login Failed");
       }
-      
+      dispatch(login({
+        token:data.accessToken,
+        userName:data.user.name,
+        email:data.user.email,
+      }));
       toast.success(`Welcome ${data.name}`);
       
       // Clear form on success
