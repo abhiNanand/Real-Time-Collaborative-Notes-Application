@@ -3,6 +3,8 @@ import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
+import { Resend } from "resend";
+
 import { generateAccessToken, generateRefreshToken } from "../utils/jwt.js";
 
 const router = express.Router();
@@ -113,31 +115,68 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+// router.post("/forget-password", async (req, res) => {
+//   try {
+//     const { email } = req.body;
+//     const user = await User.findOne({ email });
+//     if (!user) {
+//       return res.status(404).json({ message: "user not exists" });
+//     }
+ 
+//     const resetToken = crypto.randomBytes(32).toString("hex");
+//     const hashedToken =  crypto.createHash("sha256").update(resetToken).digest("hex");
+
+//     user.resetPasswordToken = hashedToken;
+//     user.resetPasswordExpire = Date.now() + 15*60*1000; // for 15 minutes
+//     await user.save();
+
+//     const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+//     const transporter = nodemailer.createTransport({
+//       service:"gmail",
+//       auth:{
+//         user:"abhinvishal5@gmail.com",
+//         pass:process.env.GMAIL_APP_PASSWORD,
+//       },
+//     });
+
+//     await transporter.sendMail({
+//       from: "chat app by abhishek anand",
+//       to: email,
+//       subject:"Password Reset" ,
+//       html:`
+//       <h3>Reset Password </h3>
+//       <p>click the link below to reset your password:</p>
+//       <a href="${resetLink}">Reset Link</a>
+//       <p>This link will expire in 15 minutes</p>
+//       `,
+//     });
+//     res.json({message:"reset password link send to email"});
+
+//   } catch (err) {
+//     res.status(500).json({ message: "Server error" });
+//   }
+// });
+
+const resend = new Resend("re_b6HoaVRZ_KH2e6R3wn4mYJ37XXn1VsMZB");
+
 router.post("/forget-password", async (req, res) => {
   try {
     const { email } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ message: "user not exists" });
-    }
- 
+      return res.status(404).json({ message: "User not found" });
+    } 
     const resetToken = crypto.randomBytes(32).toString("hex");
     const hashedToken =  crypto.createHash("sha256").update(resetToken).digest("hex");
 
     user.resetPasswordToken = hashedToken;
-    user.resetPasswordExpire = Date.now() + 15*60*1000; // for 15 minutes
+    user.resetPasswordExpire = Date.now() + 15*60*1000;
     await user.save();
 
-    const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
-    const transporter = nodemailer.createTransport({
-      service:"gmail",
-      auth:{
-        user:"abhinvishal5@gmail.com",
-        pass:process.env.GMAIL_APP_PASSWORD,
-      },
-    });
 
-    await transporter.sendMail({
+
+    const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+    await resend.emails.send({
       from: "chat app by abhishek anand",
       to: email,
       subject:"Password Reset" ,
