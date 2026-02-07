@@ -6,7 +6,7 @@
   font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* Page container */
+
 .authContainer {
   min-height: 100vh;
   display: flex;
@@ -17,14 +17,12 @@
   padding: 20px;
 }
 
-/* Heading */
 .authContainer h1 {
   margin-bottom: 20px;
   font-size: 2rem;
   color: #1f2937;
 }
 
-/* Form card */
 form {
   width: 100%;
   max-width: 420px;
@@ -40,19 +38,18 @@ form {
   gap: 16px;
 }
 
-/* Label + input layout */
 .labelsAndFields {
   display: grid;
   grid-template-columns: 1fr;
   gap: 12px;
 }
 
-/* Labels */
+
 .labels {
-  display: none; /* hidden for cleaner UI */
+  display: none; 
 }
 
-/* Input fields */
+
 .fields {
   display: flex;
   flex-direction: column;
@@ -79,7 +76,6 @@ form {
   cursor: not-allowed;
 }
 
-/* Show / Hide password button */
 .fields button {
   font-size: 0.8rem;
   color: #4f46e5;
@@ -89,13 +85,11 @@ form {
   text-decoration: underline;
 }
 
-/* Forgot password */
 .fillForm > div button {
   font-size: 0.85rem;
   color: #4f46e5;
 }
 
-/* Login / Signup switch */
 .moveTo {
   display: flex;
   justify-content: center;
@@ -114,7 +108,7 @@ form {
   text-decoration: underline;
 }
 
-/* Main button */
+
 .btn {
   width: 100%;
   padding: 12px;
@@ -138,9 +132,7 @@ form {
   cursor: not-allowed;
 }
 
-/* ---------- RESPONSIVE ---------- */
 
-/* Tablets */
 @media (min-width: 640px) {
   .authContainer h1 {
     font-size: 2.2rem;
@@ -151,7 +143,6 @@ form {
   }
 }
 
-/* Desktop */
 @media (min-width: 1024px) {
   .authContainer {
     background: linear-gradient(135deg, #e0e7ff, #f8fafc);
@@ -162,11 +153,7 @@ form {
   }
 }
 
-/* =========================
-   FORGOT PASSWORD MODAL
-   ========================= */
 
-/* Backdrop */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -178,7 +165,7 @@ form {
   padding: 16px;
 }
 
-/* Modal box */
+
 .modal-content {
   width: 100%;
   max-width: 420px;
@@ -190,7 +177,6 @@ form {
   animation: modalFadeIn 0.25s ease;
 }
 
-/* Close (×) button */
 .modal-content > button {
   position: absolute;
   top: 12px;
@@ -211,14 +197,14 @@ form {
   opacity: 0.6;
 }
 
-/* Title */
+
 .modal-content h1 {
   font-size: 1.5rem;
   margin-bottom: 8px;
   color: #111827;
 }
 
-/* Description */
+
 .modal-content p {
   font-size: 0.9rem;
   color: #4b5563;
@@ -226,14 +212,14 @@ form {
   line-height: 1.5;
 }
 
-/* Form spacing */
+
 .modal-content form {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-/* Label */
+
 .modal-content label {
   font-size: 0.85rem;
   color: #374151;
@@ -241,7 +227,7 @@ form {
   display: block;
 }
 
-/* Input */
+
 .modal-content input {
   width: 100%;
   padding: 12px 14px;
@@ -261,14 +247,14 @@ form {
   cursor: not-allowed;
 }
 
-/* Buttons row */
+
 .modal-content form > div:last-child {
   display: flex;
   gap: 10px;
   justify-content: flex-end;
 }
 
-/* Cancel button */
+
 .modal-content form > div:last-child button:first-child {
   background: transparent;
   border: 1px solid #d1d5db;
@@ -287,7 +273,7 @@ form {
   opacity: 0.6;
 }
 
-/* Animation */
+
 @keyframes modalFadeIn {
   from {
     opacity: 0;
@@ -299,9 +285,6 @@ form {
   }
 }
 
-/* =========================
-   RESPONSIVE
-   ========================= */
 
 @media (max-width: 480px) {
   .modal-content {

@@ -16,7 +16,6 @@ export default function Home() {
 
   const token = useSelector((state) => state.auth.token);
 
-  /* ---------- GET ALL NOTES ---------- */
   const fetchNotes = async () => {
     try {
       const res = await fetch(`${API}/notes/show-all`, {
@@ -32,7 +31,6 @@ export default function Home() {
     }
   };
 
-  /* ---------- SEARCH NOTES ---------- */
   const searchNotes = async (query) => {
     if (!query.trim()) {
       fetchNotes();
@@ -60,7 +58,6 @@ export default function Home() {
     if (token) fetchNotes();
   }, [token]);
 
-  /* ---------- CRUD ---------- */
   const handleSave = async (title, content) => {
     const url = editingNote
       ? `${API}/notes/edit/${editingNote._id}`
@@ -107,7 +104,6 @@ export default function Home() {
           </button>
         </div>
 
-        {/* 🔍 Search Component */}
         <SearchBar
           value={search}
           onChange={(val) => {

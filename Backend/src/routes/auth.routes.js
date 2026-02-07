@@ -82,8 +82,6 @@ router.post("/signup", async (req, res) => {
       verificationToken: token,
     });
 
-    //send verification link on user email thorugh nodemailer
-    //Step 1: Create Transporter
 
   //   const transporter = nodemailer.createTransport({
   //     service: "gmail",
@@ -93,7 +91,6 @@ router.post("/signup", async (req, res) => {
   //     },
   //   });
 
-  //   //send mail in signup route
   //   const verifyLink = `${process.env.FRONTEND_URL}/account/verify-email?token=${token}`;
   //   await transporter.sendMail({
   //     from: "Chat App by Abhishek Anand",
@@ -116,7 +113,6 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-//Forget Password
 router.post("/forget-password", async (req, res) => {
   try {
     const { email } = req.body;
@@ -132,7 +128,6 @@ router.post("/forget-password", async (req, res) => {
     user.resetPasswordExpire = Date.now() + 15*60*1000; // for 15 minutes
     await user.save();
 
-    //send email
     const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
     const transporter = nodemailer.createTransport({
       service:"gmail",

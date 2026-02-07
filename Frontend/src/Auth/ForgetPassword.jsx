@@ -43,7 +43,6 @@ export default function ForgetPassword({ close }) {
       toast.success(data.message);
       setEmail("");
       
-      // Close modal after successful submission
       setTimeout(() => close(), 2000);
     } catch (error) {
       toast.error(error.message);
@@ -57,14 +56,12 @@ export default function ForgetPassword({ close }) {
     sendForgetPassword();
   };
 
-  // Close modal when clicking outside
   const handleBackdropClick = (e) => {
     if (e.target === e.currentTarget) {
       close();
     }
   };
 
-  // Close on Escape key
   const handleKeyDown = (e) => {
     if (e.key === "Escape") {
       close();

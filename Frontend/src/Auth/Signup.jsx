@@ -51,7 +51,6 @@ export default function Signup() {
       }
 
       toast.success(data.message);
-      // Clear form only on success
       setName("");
       setEmail("");
       setPassword("");

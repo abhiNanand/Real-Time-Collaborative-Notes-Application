@@ -55,17 +55,14 @@ export default function Login() {
       }));
       toast.success(`Welcome ${data.user.name}`);
       
-      // Clear form on success
       setEmail('');
       setPassword('');
       
-      // Navigate after a short delay
       setTimeout(() => navigate('/'), 1600);
     } catch (error) {
       toast.error(error.message);
-      setIsLoading(false); // Re-enable form on error
+      setIsLoading(false); 
     }
-    // Don't set isLoading to false on success since we're navigating away
   };
 
   return (
