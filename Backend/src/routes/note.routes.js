@@ -96,5 +96,28 @@ router.get("/notes/public/:id", async (req, res) => {
   res.json(note);
 });
 
+router.get("/search", verifyJWT, async (req, res) => {
+  try {
+    const { q } = req.query;
+
+    if (!q || q.trim() === "") {
+      return res.json([]);
+    }
+
+    const notes = await Note.find({
+      user: req.userId,
+      $or: [
+        { title: { $regex: q, $options: "i" } },
+        { content: { $regex: q, $options: "i" } },
+      ],
+    }).sort({ updatedAt: -1 });
+
+    res.json(notes);
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
 
 export default router;

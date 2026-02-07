@@ -53,7 +53,7 @@ export default function Login() {
         userName:data.user.name,
         email:data.user.email,
       }));
-      toast.success(`Welcome ${data.name}`);
+      toast.success(`Welcome ${data.user.name}`);
       
       // Clear form on success
       setEmail('');
