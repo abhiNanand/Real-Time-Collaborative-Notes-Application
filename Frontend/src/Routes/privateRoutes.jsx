@@ -1,6 +1,7 @@
 import Home from "../Components/Home";
 import {Navigate,Outlet} from 'react-router';
 import { useSelector } from "react-redux";
+import PublicNote from "../Components/PublicNote";
 
 const PrivateRoute = () => {
  const token = useSelector((state)=>state.auth.token);
@@ -16,7 +17,8 @@ export const privateRoute = [
       {
         path:'/',
         element:<Home/>
-      }
+      },
+      
     ]
   }
 ]

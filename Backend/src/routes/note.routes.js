@@ -84,10 +84,9 @@ router.delete("/delete/:id", verifyJWT, async (req, res) => {
   }
 });
 
-router.get("/notes/public/:id", async (req, res) => {
+router.get("/public/:id", async (req, res) => {
   const note = await Note.findOne({
     _id: req.params.id,
-    isPublic: true,
   });
 
   if (!note)
