@@ -31,8 +31,8 @@ const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (!user) return res.status(400).json({ message: "Invalid credentials" });
 
-  if (!user.isVerified)
-    return res.status(403).json({ message: "Please verify your email" });
+  // if (!user.isVerified)
+  //   return res.status(403).json({ message: "Please verify your email" });
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
@@ -85,25 +85,25 @@ router.post("/signup", async (req, res) => {
     //send verification link on user email thorugh nodemailer
     //Step 1: Create Transporter
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "abhinvishal5@gmail.com",
-        pass: process.env.GMAIL_APP_PASSWORD,
-      },
-    });
+  //   const transporter = nodemailer.createTransport({
+  //     service: "gmail",
+  //     auth: {
+  //       user: "abhinvishal5@gmail.com",
+  //       pass: process.env.GMAIL_APP_PASSWORD,
+  //     },
+  //   });
 
-    //send mail in signup route
-    const verifyLink = `${process.env.FRONTEND_URL}/account/verify-email?token=${token}`;
-    await transporter.sendMail({
-      from: "Chat App by Abhishek Anand",
-      to: email,
-      subject: "Verify your email",
-      html: `<h3>Verify your email</h3>
-    <p>Click the link below:</p>
-    <a href="${verifyLink}">Verify Email</a>
-  `,
-    });
+  //   //send mail in signup route
+  //   const verifyLink = `${process.env.FRONTEND_URL}/account/verify-email?token=${token}`;
+  //   await transporter.sendMail({
+  //     from: "Chat App by Abhishek Anand",
+  //     to: email,
+  //     subject: "Verify your email",
+  //     html: `<h3>Verify your email</h3>
+  //   <p>Click the link below:</p>
+  //   <a href="${verifyLink}">Verify Email</a>
+  // `,
+  //   });
 
     res.status(201).json({
       message: "Signup successful. Please verify your email",
