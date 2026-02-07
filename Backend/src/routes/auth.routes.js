@@ -105,8 +105,11 @@ router.post("/signup", async (req, res) => {
   // `,
   //   });
 
-    res.status(201).json({
-      message: "Signup successful. Please verify your email",
+    // res.status(201).json({
+    //   message: "Signup successful. Please verify your email",
+    // });
+     res.status(201).json({
+      message: "account created successfully",
     });
   } catch (err) {
     res.status(500).json({ message: "Server error" });
