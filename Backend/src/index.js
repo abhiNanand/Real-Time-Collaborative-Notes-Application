@@ -12,7 +12,7 @@ import cookieParser from "cookie-parser";
 const app = express();
 app.use(
   cors({
-    origin: "http://localhost:5173", // frontend URL
+    origin: [process.env.FRONTEND_URL], 
     credentials: true,
   })
 );
@@ -21,7 +21,7 @@ app.use(cookieParser());
 
 dotenv.config();
 
-mongoose.connect("mongodb://127.0.0.1:27017/notes_application")
+mongoose.connect(process.env.MONGO_URI)
 .then(()=>console.log("db connected"))
 .catch((err)=>console.log("err"));
 
