@@ -177,7 +177,7 @@ router.post("/forget-password", async (req, res) => {
 
     const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
     await resend.emails.send({
-      from: "chat app by abhishek anand",
+      from: "Chat App <onboarding@resend.dev>",
       to: email,
       subject:"Password Reset" ,
       html:`
