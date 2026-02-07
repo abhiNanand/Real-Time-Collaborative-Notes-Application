@@ -6,14 +6,21 @@ export default function ResetPassword() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const { token } = useParams();
-  console.log(token);
 
   const submit = async (e) => {
     e.preventDefault();
+
+    // basic validations
+    if (!password.trim()) {
+      toast.error("Password cannot be empty");
+      return;
+    }
+
     if (password !== confirmPassword) {
       toast.error("Passwords do not match");
       return;
     }
+
     try {
       const res = await fetch(
         `${import.meta.env.VITE_API_URL}/account/reset-password/${token}`,
@@ -23,13 +30,27 @@ export default function ResetPassword() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ password }),
-        },
+        }
       );
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.message || "reset password failed");
+
+      // always read as text first (HTML-safe)
+      const text = await res.text();
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error("Invalid server response");
       }
-      toast.success(data.message);
+
+      if (!res.ok) {
+        throw new Error(data.message || "Reset password failed");
+      }
+
+      toast.success(data.message || "Password reset successful");
+
+      // optional: redirect to login after success
+      // setTimeout(() => navigate("/login"), 1500);
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -37,9 +58,10 @@ export default function ResetPassword() {
       setConfirmPassword("");
     }
   };
+
   return (
     <div className="authContainer">
-      <h1>Reset Password Form</h1>
+      <h1>Reset Password</h1>
 
       <form onSubmit={submit}>
         <div className="fillForm">
@@ -52,17 +74,18 @@ export default function ResetPassword() {
             <div className="fields">
               <input
                 type="password"
+                placeholder="Enter new password"
                 value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
+
               <input
-                type="text"
+                type="password"
+                placeholder="Confirm new password"
                 value={confirmPassword}
-                onChange={(e) => {
-                  setConfirmPassword(e.target.value);
-                }}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
               />
             </div>
           </div>

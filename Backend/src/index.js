@@ -8,19 +8,17 @@ import noteRoutes from './routes/note.routes.js';
 import dotenv from 'dotenv';
 import cookieParser from "cookie-parser";
 
-
+dotenv.config();
 const app = express();
+app.use(cookieParser());
 app.use(
   cors({
     origin: [process.env.FRONTEND_URL], 
     credentials: true,
   })
 );
+ 
 app.use(express.json());
-app.use(cookieParser());
-
-dotenv.config();
-
 mongoose.connect(process.env.MONGO_URI)
 .then(()=>console.log("db connected"))
 .catch((err)=>console.log("err"));

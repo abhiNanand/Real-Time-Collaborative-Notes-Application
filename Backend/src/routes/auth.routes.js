@@ -93,7 +93,7 @@ router.post("/signup", async (req, res) => {
   //     },
   //   });
 
-  //   const verifyLink = `${process.env.FRONTEND_URL}/account/verify-email?token=${token}`;
+  //   const verifyLink = `${process.env.BACKEND_URL}/account/verify-email?token=${token}`;
   //   await transporter.sendMail({
   //     from: "Chat App by Abhishek Anand",
   //     to: email,
@@ -104,9 +104,9 @@ router.post("/signup", async (req, res) => {
   // `,
   //   });
 
-    // res.status(201).json({
-    //   message: "Signup successful. Please verify your email",
-    // });
+  //   res.status(201).json({
+  //     message: "Signup successful. Please verify your email",
+  //   });
      res.status(201).json({
       message: "account created successfully",
     });
@@ -115,69 +115,32 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-// router.post("/forget-password", async (req, res) => {
-//   try {
-//     const { email } = req.body;
-//     const user = await User.findOne({ email });
-//     if (!user) {
-//       return res.status(404).json({ message: "user not exists" });
-//     }
- 
-//     const resetToken = crypto.randomBytes(32).toString("hex");
-//     const hashedToken =  crypto.createHash("sha256").update(resetToken).digest("hex");
-
-//     user.resetPasswordToken = hashedToken;
-//     user.resetPasswordExpire = Date.now() + 15*60*1000; // for 15 minutes
-//     await user.save();
-
-//     const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
-//     const transporter = nodemailer.createTransport({
-//       service:"gmail",
-//       auth:{
-//         user:"abhinvishal5@gmail.com",
-//         pass:process.env.GMAIL_APP_PASSWORD,
-//       },
-//     });
-
-//     await transporter.sendMail({
-//       from: "chat app by abhishek anand",
-//       to: email,
-//       subject:"Password Reset" ,
-//       html:`
-//       <h3>Reset Password </h3>
-//       <p>click the link below to reset your password:</p>
-//       <a href="${resetLink}">Reset Link</a>
-//       <p>This link will expire in 15 minutes</p>
-//       `,
-//     });
-//     res.json({message:"reset password link send to email"});
-
-//   } catch (err) {
-//     res.status(500).json({ message: "Server error" });
-//   }
-// });
-
-const resend = new Resend("re_b6HoaVRZ_KH2e6R3wn4mYJ37XXn1VsMZB");
-
 router.post("/forget-password", async (req, res) => {
   try {
     const { email } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    } 
+      return res.status(404).json({ message: "user not exists" });
+    }
+ 
     const resetToken = crypto.randomBytes(32).toString("hex");
     const hashedToken =  crypto.createHash("sha256").update(resetToken).digest("hex");
 
     user.resetPasswordToken = hashedToken;
-    user.resetPasswordExpire = Date.now() + 15*60*1000;
+    user.resetPasswordExpire = Date.now() + 15*60*1000; // for 15 minutes
     await user.save();
 
-
-
     const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
-    await resend.emails.send({
-      from: "Chat App <onboarding@resend.dev>",
+    const transporter = nodemailer.createTransport({
+      service:"gmail",
+      auth:{
+        user:"abhinvishal5@gmail.com",
+        pass:process.env.GMAIL_APP_PASSWORD,
+      },
+    });
+
+    await transporter.sendMail({
+      from: "chat app by abhishek anand",
       to: email,
       subject:"Password Reset" ,
       html:`
@@ -194,38 +157,43 @@ router.post("/forget-password", async (req, res) => {
   }
 });
 
-router.post("/reset-password/:token",async(req,res)=>{
-  try{
-  const {password} = req.body;
-  const {token} = req.params;
+router.post("/reset-password/:token", async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { password } = req.body;
 
-if (!password || password.length < 6) {
-  return res.status(400).json({ message: "Password must be at least 6 characters" });
-}
+    if (!password) {
+      return res.status(400).json({ message: "Password is required" });
+    }
 
-  const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
+    // hash token (same way you stored it)
+    const hashedToken = crypto
+      .createHash("sha256")
+      .update(token)
+      .digest("hex");
 
-  const user = await User.findOne({resetPasswordToken:hashedToken,
-    resetPasswordExpire:{$gt:Date.now()},
-});
+    const user = await User.findOne({
+      resetPasswordToken: hashedToken,
+      resetPasswordExpire: { $gt: Date.now() },
+    });
 
-if(!user){
-  return res.status(400).json({message:"Invalid or expired token"});
-}
+    if (!user) {
+      return res
+        .status(400)
+        .json({ message: "Token is invalid or expired" });
+    }
 
-const hashedPassword =await bcrypt.hash(password,10);
-user.password = hashedPassword;
+    // update password
+    user.password = await bcrypt.hash(password, 10);
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
 
-user.resetPasswordExpire = undefined;
-user.resetPasswordToken = undefined;
+    await user.save();
 
-await user.save();
-res.json({message: "Password reset successful"});
-
-}
-catch(err){
-  res.status(500).json({message:"Server error"});
-}
+    res.status(200).json({ message: "Password reset successful" });
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 router.post("/refresh", async (req, res) => {
