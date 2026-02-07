@@ -1,7 +1,10 @@
 import express from 'express';
 import cors from "cors";
 import mongoose from 'mongoose';
+
 import authRoutes from './routes/auth.routes.js';
+import noteRoutes from './routes/note.routes.js';
+
 import dotenv from 'dotenv';
 import cookieParser from "cookie-parser";
 
@@ -27,6 +30,8 @@ app.get("/",(req,res)=>{
 });
 
 app.use("/account",authRoutes);
+app.use("/notes",noteRoutes);
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT,()=>console.log("http://localhost:3000"));
